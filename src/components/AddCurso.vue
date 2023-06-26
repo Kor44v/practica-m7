@@ -107,13 +107,20 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn>Agregar</v-btn>
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="add"
+            >
+            
+            Agregar
+            </v-btn>
           <v-btn
             color="blue darken-1"
             text
             @click="dialog = false"
           >
-            Close
+            Cancelar
           </v-btn>
           <v-btn
             color="blue darken-1"
@@ -128,6 +135,9 @@
   </v-row>
 </template>
 <script>
+import {mapActions} from 'vuex'
+
+
 export default {
   name: "addCurso-comp",
   created() {},
@@ -150,6 +160,11 @@ export default {
   },
   props: {},
   methods: {
+    ...mapActions(['add_curso']),
+    add(){
+      this.add_curso(this.form)
+      this.dialog=false
+    },
     clean(){
       this.$refs.form.reset()
     }

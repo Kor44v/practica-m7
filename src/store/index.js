@@ -104,8 +104,14 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    ADD_CURSO(state,form){
+      state.cursos.push(form)
+    }
   },
   actions: {
+    add_curso({commit},form){
+      commit('ADD_CURSO',form)
+    }
   },
   modules: {
   }
