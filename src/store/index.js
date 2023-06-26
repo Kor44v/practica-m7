@@ -81,6 +81,27 @@ export default new Vuex.Store({
     ]
   },
   getters: {
+    totalAllow:(state)=>{
+      return state.cursos.reduce((acumulador, curso) => acumulador + curso.cupos, 0)
+    },
+    totalReg:(state)=>{
+      return state.cursos.reduce((acumulador,curso)=>acumulador + curso.inscritos,0)
+    },
+    cuposRes:(state)=>{
+      let totalAllow = state.cursos.reduce((acumulador, curso) => acumulador + curso.cupos, 0)
+      let totalReg = state.cursos.reduce((acumulador,curso)=>acumulador + curso.inscritos,0)
+      return totalAllow-totalReg
+    },
+    cursosTerminados:(state)=>{ 
+      let cursoTerminado = state.cursos.filter(t=>t.completado===true)
+      let totalTerminado = cursoTerminado.reduce((acumulado,curso)=>{
+        return acumulado + curso.completado
+      },0)
+      return totalTerminado
+    },
+    totalCursos:(state)=>{
+      return state.cursos.length
+    }
   },
   mutations: {
   },
