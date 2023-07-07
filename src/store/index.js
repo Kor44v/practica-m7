@@ -78,39 +78,72 @@ export default new Vuex.Store({
         fecha_registro: '06/03/2022',
         descripcion: 'Con SASS aprenderás a escribir mejor código de CSS con todas las funciones necesarias.' 
       },
-    ]
+    ],
+    
   },
   getters: {
     totalAllow:(state)=>{
-      return state.cursos.reduce((acumulador, curso) => acumulador + curso.cupos, 0)
+      return state.cursos.reduce((acumulador, curso) => acumulador + Number(curso.cupos), 0)
     },
     totalReg:(state)=>{
-      return state.cursos.reduce((acumulador,curso)=>acumulador + curso.inscritos,0)
+      return state.cursos.reduce((acumulador,curso)=>acumulador + Number(curso.inscritos),0)
     },
     cuposRes:(state)=>{
-      let totalAllow = state.cursos.reduce((acumulador, curso) => acumulador + curso.cupos, 0)
-      let totalReg = state.cursos.reduce((acumulador,curso)=>acumulador + curso.inscritos,0)
+      let totalAllow = state.cursos.reduce((acumulador, curso) => acumulador + Number(curso.cupos), 0)
+      let totalReg = state.cursos.reduce((acumulador,curso)=>acumulador + Number(curso.inscritos),0)
       return totalAllow-totalReg
     },
     cursosTerminados:(state)=>{ 
       let cursoTerminado = state.cursos.filter(t=>t.completado===true)
-      let totalTerminado = cursoTerminado.reduce((acumulado,curso)=>{
-        return acumulado + curso.completado
-      },0)
-      return totalTerminado
+      let contador = 0
+      cursoTerminado.forEach((curso)=>{
+        if(curso.completado ===true){
+          contador++
+        }
+        })
+        return contador
+    },
+    cursosActivos:(state)=>{ 
+      let cursoActivo = state.cursos.filter(t=>t.completado===false)
+      console.log(cursoActivo)
+      let contador = 0
+      cursoActivo.forEach((curso)=>{
+        if(curso.completado ===false){
+          contador++
+        }
+        })
+        return contador
     },
     totalCursos:(state)=>{
       return state.cursos.length
-    }
+    },
+    getCourseById: (state) => (id) => {return state.cursos.find(curso => curso.id == id)  }
   },
   mutations: {
     ADD_CURSO(state,form){
+      
       state.cursos.push(form)
+    },
+    DELETE_CURSO(state,nombre){
+      console.log(nombre)
+      let index1 = state.cursos.findIndex(name=>name.nombre == nombre)
+      state.cursos.splice(index1,1)
+    },
+    EDIT_CURSO(state,form){
+      let index = state.cursos.findIndex(curso=>curso.id == form.id)
+      state.cursos.splice(index,1,form)
     }
   },
   actions: {
     add_curso({commit},form){
       commit('ADD_CURSO',form)
+    },
+    delete_curso({commit},nombre){
+      console.log(nombre)
+      commit('DELETE_CURSO',nombre)
+    },
+    edit_curso({commit},form){
+      commit('EDIT_CURSO',form)
     }
   },
   modules: {

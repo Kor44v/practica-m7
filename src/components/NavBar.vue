@@ -5,16 +5,16 @@
       dense
       dark
     >
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
-      <v-toolbar-title>
+
+      <v-toolbar-title @click="$router.push('/')">
         Cursos AlphaTauri
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
 
 
-      <v-btn icon to="/">
+      <v-btn icon to="/" >
         <v-icon>mdi-home</v-icon>
       </v-btn>
 
